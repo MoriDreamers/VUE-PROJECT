@@ -10,10 +10,10 @@ import axios from 'axios'
 
 const request = (url = '',data = {} , method , timeout = 2000) =>{ //默认值写到接受参数里
     return new Promise((resolve, reject) => {
-        method = method.toLowCase()//将请求方法转为小写以统一处理
+        method = method.toLowerCase()//将请求方法转为小写以统一处理
         if (method === 'get'){
             axios({
-                method:method.toLowercase,
+                method:method,
                 params:data,
                 timeout:timeout,
                 url:url,
@@ -25,7 +25,7 @@ const request = (url = '',data = {} , method , timeout = 2000) =>{ //默认值�
             })
         }else if (method === 'post'){
             axios({
-                method:method.toLowercase,
+                method:method,
                 data:data,
                 timeout:timeout,
                 url:url,
