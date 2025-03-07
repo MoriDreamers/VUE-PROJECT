@@ -1,10 +1,15 @@
 //导入创建路由的方法
 import { createRouter,createWebHashHistory } from 'vue-router'
 
+export const jmupRouter=(url) =>{
+    router.replace(url)
+}
+
 //路由集合处理，创建一个路由对象，并且包括子路由
 const listRoutes = {
     
 }
+
 const Login = () => import('../view/Login.vue')
 
 //定义路由映射 route是一条路由 许多放到一起就成了集合router
