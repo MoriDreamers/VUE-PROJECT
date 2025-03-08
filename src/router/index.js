@@ -11,12 +11,13 @@ const listRoutes = {
 }
 
 const Login = () => import('../view/Login.vue')
-const Index = () => import('../APP.vue')
+const Index = () => import('../view/Index.vue')
 
 //定义路由映射 route是一条路由 许多放到一起就成了集合router
 const routes = [
     listRoutes,
-    {path:"/",component:Index},
+    {path: "/", redirect: "/home" }, // 根路径重定向到 /home
+    {path:"/home",component:Index},
     {path:"/login",component:Login},
     //这玩意实际上是个数组 [] ，在里面插入了很多条对象 {}
 ]
@@ -41,30 +42,24 @@ router.beforeEach(
 //配置未登录的请求地址拦截
 router.beforeEach((to, from, next) => {
     // 获取目标路径和 token
-    const targetPath = to.path;
-    const token = window.localStorage.getItem(apiHeader.TokenName);
+    const toPath = to.path;
+    const isLoginPage = toPath === "/login"; // 判断是否是登录页
+    const tokenStatus = window.localStorage.getItem(apiHeader.TokenName); // 获取 token
 
-    // 访问登录页面
-    if (targetPath === '/login') {
-        if (token) {
-            // 已登录，重定向到首页
-            next('/');
-        } else {
-            // 未登录，放行
-            next();
-        }
+    if (isLoginPage && tokenStatus) {
+        // 如果用户已经登录且目标是登录页，重定向到首页
+        next("/home");
+    } else if (isLoginPage && !tokenStatus) {
+        // 如果用户未登录且目标是登录页，允许访问
+        next();
+    } else if (tokenStatus) {
+        // 如果用户已登录且目标不是登录页，允许访问
+        next();
     } else {
-        // 访问其他页面
-        if (token) {
-            // 已登录，放行
-            next();
-        } else {
-            // 未登录，重定向到登录页面
-            next('/login');
-        }
+        // 如果用户未登录且目标不是登录页，重定向到登录页
+        next("/login");
     }
 });
-
 router.push("/")
 
 export default router

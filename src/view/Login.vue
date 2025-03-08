@@ -7,6 +7,7 @@ import { apiUrl } from '../config';
 import { apiHeader } from '../config';
 import { ElMessage } from 'element-plus';
 import { jmupRouter } from '../router'
+
 const success = () => {
   ElMessage({
     showClose: true,
@@ -58,7 +59,7 @@ const submitForm = () => {
         if (response.status === 200) {
           success();
           window.localStorage.setItem(apiHeader.TokenName, response.data.token);
-          jmupRouter('/');
+          jmupRouter('/home');
         } else {
           failed(response.message);
         }
@@ -76,7 +77,7 @@ const submitForm = () => {
 <template>
   <div class="background"></div>
   <div class="container">
-    <div class="item">
+    <div class="item" >
       <div class="text-item">
         <h2>Welcome! <br><span>Have a good time！</span></h2>
       </div>
@@ -93,7 +94,7 @@ const submitForm = () => {
             <el-form-item prop="ps">
               <el-input  v-model="lgi.ps" placeholder="Password" type="password" autocomplete="off" />
             </el-form-item>
-            <el-button class="btn" type="primary" @click="submitForm" style="font-size: medium;">Login</el-button>
+            <el-button  color="#626aef"  type="primary" @click="submitForm" style="font-size: medium;">Login</el-button>
           </el-form>
         </el-card>
       </div>
@@ -125,7 +126,7 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 75%;
+  width: 70%;
   height: 550px;
   background: rgba(255, 255, 255, 0.6);
   border-radius: 20px;
@@ -133,7 +134,7 @@ body {
   overflow: hidden;
 }
 .item {
-  width: 58%;
+  width: 55%;
   padding: 80px;
   color: white;
   display: flex;
@@ -152,11 +153,12 @@ body {
   font-size: 16px;
 }
 .login-section {
+  min-width: 30%;
   width: 35%;
-  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
+
 }
 .form-box {
   width: 100%;
