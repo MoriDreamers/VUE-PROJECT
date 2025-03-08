@@ -11,13 +11,13 @@ const listRoutes = {
 }
 
 const Login = () => import('../view/Login.vue')
-const Index = () => import('../view/Index.vue')
-
+//const Index = () => import('../view/Index.vue')
+const Layout = () => import('../view/layout/Layout.vue')
 //定义路由映射 route是一条路由 许多放到一起就成了集合router
 const routes = [
     listRoutes,
     {path: "/", redirect: "/home" }, // 根路径重定向到 /home
-    {path:"/home",component:Index},
+    {path:"/home",component:Layout},
     {path:"/login",component:Login},
     //这玩意实际上是个数组 [] ，在里面插入了很多条对象 {}
 ]
