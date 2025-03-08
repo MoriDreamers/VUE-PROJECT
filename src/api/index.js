@@ -100,12 +100,12 @@ axios.interceptors.response.use(function (response){
       return Promise.reject(response)
 
     }return response;
-    },function(error){
+    },function(error){ 
         ElMessage({
-            message: '请求错误，请联系管理员.'+ error.message,
+            message: '请求错误，请联系管理员，错误信息为：'+ error.message,
             type: 'error',
         })
       return Promise.reject(error);
     }
   )
-  
+
