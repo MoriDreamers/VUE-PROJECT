@@ -1,12 +1,14 @@
 //自动化渲染尝试
 //一共三层 由index作为唯一标识 如果index未定义或者相同会导致展开时出现重复
 //嵌套层级用subMenu定义 子菜单由items定义
+
+
 export const MenuConfig = () => [
     //用户
     {
         title:"用户控制",
         index:"/user",
-        icon:"",
+        icon:"HomeFilled",
         items:[
             {
                 index:"/user",
@@ -23,12 +25,12 @@ export const MenuConfig = () => [
     {
         title:"资产管理",
         index:"/product",
-        icon:"",
+        icon:"Tools",
         subMenu:[
             {
                 index:"/product/list",
                 title:"资产列表",
-                icon:"",
+                icon:"Histogram",
                 items:[
                     {
                         index:"/product/list/controller",
@@ -39,7 +41,7 @@ export const MenuConfig = () => [
             {
                 index:"/product/view",
                 title:"资产视图",
-                icon:"",
+                icon:"InfoFilled",
                 items:[
                     {
                         index:"/product/list/view",
@@ -51,12 +53,12 @@ export const MenuConfig = () => [
     },
     {
         title:"樱之杜净梦者",
-        icon:"",
+        icon:"Menu",
         index:"/moridreamers",
         subMenu:[
             {
                 title:"女主角们",
-                icon:"",
+                icon:"Flag",
                 index:"/moridreamers/girls",
                 items:[
                     {

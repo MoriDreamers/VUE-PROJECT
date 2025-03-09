@@ -1,16 +1,23 @@
 <script setup>
 import { MenuConfig } from '../../../config/menu.js'
 import { ElNotification, ElSubMenu } from 'element-plus'
-import {TrendCharts,StarFilled, } from '@element-plus/icons-vue'
-import {
-  Document,
-  Menu as IconMenu,
-  Location,
-  Setting,
-} from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus';
 import { ref } from 'vue';
 
+
+/*
+  为减少性能损耗 你可以自己手动来导入所需要的图标
+  import { UserFilled, Tools, HomeFilled, Setting } from '@element-plus/icons-vue';
+
+  const Icons = { UserFilled, Tools, HomeFilled, Setting };
+*/
+
+//导入所有图标
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+//创建图标映射表用于动态加载
+const Icons = {};
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  Icons[key] = component;
+}
 
 let countEgg = ref ("0")
 const colorEggCount = () =>{
@@ -47,15 +54,21 @@ const colorEgg = () => {
           router
         >
         <!--可以改成递归，我不用递归的原因不是因为性能开销大，而是单纯因为我不会-->
-          <el-sub-menu v-for="menu in MenuConfig()" :key="menu.index" :index="menu.index">
+          <el-sub-menu v-for="menu in MenuConfig()" :key="menu.index" :index="menu.index" :icon="menu.icon">
             <template #title>
-              <el-icon></el-icon>
+            <!-- 
+              外层加图标不好看 想要图标直接删了注释就行
+              <el-icon v-if="menu.icon">
+                <component :is="Icons[menu.icon]" />
+              </el-icon>-->
               <span>{{ menu.title }}</span>
             </template>
               <template v-if="menu.subMenu">
-                <el-sub-menu v-for="subMenu in menu.subMenu" :key="subMenu.index" :index="subMenu.index">
+                <el-sub-menu v-for="subMenu in menu.subMenu" :key="subMenu.index" :index="subMenu.index" :icon="subMenu.icon">
                   <template #title>
-                    <el-icon></el-icon>
+                    <el-icon v-if="subMenu.icon">
+                      <component :is="Icons[subMenu.icon]" />
+                    </el-icon>
                     <span>{{ subMenu.title }}</span>
                   </template>
                   <template v-if="subMenu.items">
