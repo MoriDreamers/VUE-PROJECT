@@ -1,22 +1,42 @@
 <script setup>
-import {TrendCharts} from '@element-plus/icons-vue'
+import { MenuConfig } from '../../../config/menu.js'
+import { ElNotification, ElSubMenu } from 'element-plus'
+import {TrendCharts,StarFilled, } from '@element-plus/icons-vue'
 import {
   Document,
   Menu as IconMenu,
   Location,
   Setting,
 } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus';
+import { ref } from 'vue';
 
+
+let countEgg = ref ("0")
+const colorEggCount = () =>{
+  countEgg.value ++
+  if(countEgg.value%5 == 0){
+    colorEgg()
+  }
+}
+const colorEgg = () => {
+    ElNotification({
+    title: '这里是彩蛋！',
+    message: 'Ciallo～(∠・ω< )⌒☆',
+    type: 'success',
+  })
+};
 </script>
 
 <template>
 
     <el-aside width="250px" class="el-aside">
       <div class="el-aside-logo">      
-        <el-button text>
-          Welcome!
+        <el-button text @click="colorEggCount" v-model="countEgg">
+          HELLO !
         </el-button>
       </div>
+
       <div class="menu">
           <el-menu
           active-text-color="#ffd04b"
@@ -26,20 +46,35 @@ import {
           text-color="#fff"
           router
         >
-          <el-sub-menu index="1">
+        <!--可以改成递归，我不用递归的原因不是因为性能开销大，而是单纯因为我不会-->
+          <el-sub-menu v-for="menu in MenuConfig()" :key="menu.index" :index="menu.index">
             <template #title>
-              <el-icon ><location /></el-icon>
-              <span>用户视图</span>
+              <el-icon></el-icon>
+              <span>{{ menu.title }}</span>
             </template>
-            <el-menu-item index="/user/add">
-              <el-icon ><icon-menu /></el-icon>
-              <template #title>用户二级菜单</template>
-            </el-menu-item>
+              <template v-if="menu.subMenu">
+                <el-sub-menu v-for="subMenu in menu.subMenu" :key="subMenu.index" :index="subMenu.index">
+                  <template #title>
+                    <el-icon></el-icon>
+                    <span>{{ subMenu.title }}</span>
+                  </template>
+                  <template v-if="subMenu.items">
+                    <el-menu-item v-for="item in subMenu.items" :key="subMenu.index" :index="subMenu.index">
+                      <template #title>
+                        <span>{{ item.title }}</span>
+                      </template>
+                    </el-menu-item>
+                    </template>
+                </el-sub-menu>
+              </template>
+            <template v-else>
+              <el-menu-item v-for="item in menu.items" :key="item.index" :index="item.index">
+                <template #title>
+                  <span>{{ item.title }}</span>
+                </template>
+              </el-menu-item>
+              </template>
           </el-sub-menu>
-          <el-menu-item index="3">
-            <el-icon><icon-menu /></el-icon>
-            <template #title>Navigator Three</template>
-          </el-menu-item>
         </el-menu>
       </div>
     </el-aside>
@@ -60,12 +95,19 @@ import {
       width: 100%;
       height: 100%;
       font-size: 18px;
+      font-weight: bold;
     }
   }
 
   .el-menu-vertical-demo {
     width: 100%;
     min-height: calc(100vh - 60px); 
+    /*
+    减去按钮高度后可以避免出现滚动条 
+    */
     border: 0px;
+    /*
+    自带有一个右边0.8px的边框，会导致有白边不好看，去掉它
+    */
   }
 </style>
