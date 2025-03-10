@@ -1,24 +1,23 @@
 //导入创建路由的方法
 import { createRouter,createWebHashHistory } from 'vue-router'
 import { apiHeader } from '../config'
+import { userRouter } from './user.js'
 export const jmupRouter=(url) =>{
     router.replace(url)
 }
 
 //路由集合处理，创建一个路由对象，并且包括子路由
-const listRoutes = {
-    
-}
 
 const Login = () => import('../view/Login.vue')
 //const Index = () => import('../view/Index.vue')
 const Layout = () => import('../view/layout/Layout.vue')
 //定义路由映射 route是一条路由 许多放到一起就成了集合router
 const routes = [
-    listRoutes,
+    userRouter,
     {path: "/", redirect: "/home" }, // 根路径重定向到 /home
     {path:"/home",component:Layout},
     {path:"/login",component:Login},
+
     //这玩意实际上是个数组 [] ，在里面插入了很多条对象 {}
 ]
 //创建路由实例

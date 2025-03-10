@@ -2,6 +2,7 @@
 import { MenuConfig } from '../../../config/menu.js'
 import { ElNotification, ElSubMenu } from 'element-plus'
 import { ref } from 'vue';
+import {jmupRouter}from '../../../router/index.js'
 
 
 /*
@@ -21,6 +22,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 let countEgg = ref ("0")
 const colorEggCount = () =>{
+  jmupRouter("/home")
   countEgg.value ++
   if(countEgg.value%5 == 0){
     colorEgg()
@@ -40,7 +42,7 @@ const colorEgg = () => {
     <el-aside width="250px" class="el-aside">
       <div class="el-aside-logo">      
         <el-button text @click="colorEggCount" v-model="countEgg">
-          HELLO !
+          Ciallo !
         </el-button>
       </div>
 
@@ -49,7 +51,7 @@ const colorEgg = () => {
           active-text-color="#ffd04b"
           background-color="#545c64"
           class="el-menu-vertical-demo"
-          default-active="2"
+          :default-active="$route.path"
           text-color="#fff"
           router
         >

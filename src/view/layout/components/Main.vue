@@ -4,7 +4,10 @@
 
 <template>
 
-    <el-main>Main</el-main>
+    <el-main>
+
+        <RouterView></RouterView>
+    </el-main>
 
 
 </template>

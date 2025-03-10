@@ -11,14 +11,18 @@ export const MenuConfig = () => [
         icon:"HomeFilled",
         items:[
             {
-                index:"/user",
+                index:"/user/list",
                 title:"用户列表",
             },
             //查看权限
             {
-                index:"/user/permission",
-                title:"查看权限",
-            }
+                index:"/user/add",
+                title:"添加用户",
+            },
+            {
+                index:"/user/view",
+                title:"查看用户",
+            },
         ]
     },
     //产品管理
