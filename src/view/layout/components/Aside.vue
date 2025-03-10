@@ -48,7 +48,7 @@ const colorEgg = () => {
 
       <div class="menu">
           <el-menu
-          active-text-color="#ffd04b"
+          active-text-color="#ffe9e3"
           background-color="#545c64"
           class="el-menu-vertical-demo"
           :default-active="$route.path"

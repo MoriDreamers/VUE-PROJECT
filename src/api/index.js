@@ -84,7 +84,8 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response){
     //在这里对返回的数据进行处理
     //超出2xx范围的状态码都会触发该函数
-    if (response.status === 200){
+    //go后台默认只要请求了就返回201 但是我定义的data.status401为401 所以这里要判断一下
+    if (response.status === 200 && response.data.status !== 401){
       return Promise.resolve(response)
     }else if (response.data.status === 401) {
       //说明token失效
