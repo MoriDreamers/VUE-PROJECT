@@ -1,8 +1,17 @@
 <script setup>
   import { toRefs,reactive,ref } from 'vue';
   import {getUserAddApi,getUserModifyApi} from '../../api/user.js'
-  import { ElMessage } from 'element-plus'
+  import { ElMessage,ElNotification } from 'element-plus'
   import { onBeforeMount } from 'vue';
+
+  const waringBox = () => {
+    ElNotification({
+    title: '请检查输入的数据！',
+    message: '校验不通过',
+    type: 'warning',
+  })
+};
+
   const props = defineProps({
     method:{
       type:String,
@@ -42,32 +51,50 @@ onBeforeMount(()=>{
 
 
 const submitForm = () => {
-  loading.value = true;
-  if (props.method == "add" ){
-    getUserAddApi(data.userForm).then((Response) => {
-    ElMessage({
-        type:'success',
-        message:Response.message,
-      })
-      loading.value = false;
-      emits('refresh')
-  })
-  }else {
-    getUserModifyApi(data.userForm).then((Response) => {
-    ElMessage({
-        type:'success',
-        message:Response.message,
-      })
-      loading.value = false;
-      emits('refresh')
-  })
-  }
-}
 
+  userFormRef.value.validate((valid) => {
+    if(valid){
+            loading.value = true;
+        if (props.method == "add" ){
+          getUserAddApi(data.userForm).then((Response) => {
+          ElMessage({
+              type:'success',
+              message:Response.message,
+            })
+            loading.value = false;
+            emits('refresh')
+        })
+        }else {
+          getUserModifyApi(data.userForm).then((Response) => {
+          ElMessage({
+              type:'success',
+              message:Response.message,
+            })
+            loading.value = false;
+            emits('refresh')
+        })
+        }
+    } else{
+      waringBox()
+    }
+  })
+ 
+}
+const rules = reactive({
+  username: [
+    { required: true, message: '请输入用户名 ', trigger: 'blur',  },
+    { min: 1, max: 20, message: '至少一个字符', trigger: 'blur' },
+  ],
+  qq: [
+    { required: true, message: '请输入QQ', trigger: 'blur' },
+    { min: 5, max: 20, message: '长度太短了！', trigger: 'blur' },
+  ],
+  address:[{required:false,message:'请输入地址',trigger:'blur'},]
+});
 </script>
 
 <template>
-  <el-form ref="userFormRef" :model="userForm" v-loading="loading" > 
+  <el-form ref="userFormRef" :model="userForm" v-loading="loading" :rules="rules"> 
     <el-form-item label="姓名" label-width="60" prop="username" class="form">
       <el-input v-model="userForm.username" autocomplete="off" />
     </el-form-item>
@@ -82,7 +109,7 @@ const submitForm = () => {
     <el-button @click="clearForm"> 
       {{ props.method == "modify"? "还原" : "清空" }}
     </el-button>
-    <el-button type="primary" @click="submitForm">
+    <el-button type="primary" @click="submitForm" >
       {{ props.method == "add"? "增加" : "修改" }}
     </el-button>
   </div>
