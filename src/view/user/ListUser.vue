@@ -79,6 +79,7 @@ const addUserDiag = ref(false)
 const getUserAdd = () =>{
   defaultMethod.value = "add"
   addUserDiag.value = true
+  data.userForm = {}
 }
 const getUserModify = (info) =>{
   defaultMethod.value = "modify"

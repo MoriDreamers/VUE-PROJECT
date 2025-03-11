@@ -79,7 +79,9 @@ const submitForm = () => {
       </el-form-item>
   </el-form>
   <div class="btn">
-    <el-button @click="clearForm">清空</el-button>
+    <el-button @click="clearForm"> 
+      {{ props.method == "modify"? "还原" : "清空" }}
+    </el-button>
     <el-button type="primary" @click="submitForm">
       {{ props.method == "add"? "增加" : "修改" }}
     </el-button>
