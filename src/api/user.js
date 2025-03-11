@@ -7,6 +7,11 @@ export const getUserListApi = () => {
 }
 
 export const getUserDeleteApi = (id) => { 
-    console.log("id",id);
+    console.log("请求删除的用户ID",id);
     return request(apiUrl.userDelete, {id}, "get",2000);
+}
+
+export const getUserAddApi = (object) => { 
+    console.log("请求添加的用户资料",object);
+    return request(apiUrl.userAdd, {object}, "post",2000);
 }

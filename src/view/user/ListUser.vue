@@ -5,6 +5,7 @@ import { toRefs } from 'vue';
 import { onBeforeMount } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { CircleCheck } from '@element-plus/icons-vue'
+import AddUser from './AddUser.vue';
 //自定义加载动画，专门留空的几行用于定义动画
 const svg = `
         <path class="path" d="
@@ -64,12 +65,18 @@ const getUserListDelete = (info) => {
     })
     
 }
+
+const addUserDiag = ref(false)
+const getUserAdd = () =>{
+  addUserDiag.value = true
+}
+
 </script>
 
 <template>
 
     <div class="mb-4" style="text-align: left;">
-        <el-button @click= "getUserListData " :text="true" style="  text-shadow: #00000069 1px 1px 1px;">添加用户</el-button>
+        <el-button @click= "getUserAdd" :text="true" style="  text-shadow: #00000069 1px 1px 1px;">添加用户</el-button>
       </div>
       
     <el-table 
@@ -95,5 +102,8 @@ const getUserListDelete = (info) => {
           </template>
         </el-table-column>
       </el-table>
-
+      
+      <el-dialog v-model="addUserDiag" title="添加用户" width="500" >
+          <AddUser @refresh="getUserListData" ></AddUser>
+      </el-dialog>
 </template>
