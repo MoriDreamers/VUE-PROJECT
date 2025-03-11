@@ -15,3 +15,8 @@ export const getUserAddApi = (object) => {
     console.log("请求添加的用户资料",object);
     return request(apiUrl.userAdd, {object}, "post",2000);
 }
+
+export const getUserModifyApi = (object) => { 
+    console.log("请求修改的用户资料",object);
+    return request(apiUrl.userModify, {object}, "post",2000);
+}

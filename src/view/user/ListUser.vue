@@ -6,7 +6,11 @@ import { onBeforeMount } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { CircleCheck } from '@element-plus/icons-vue'
 import AddUser from './AddUser.vue';
+
+const defaultMethod = ref("add")
+
 //自定义加载动画，专门留空的几行用于定义动画
+
 const svg = `
         <path class="path" d="
           M 30 15
@@ -21,7 +25,12 @@ const svg = `
 const loading = ref(true)
 
 const data = reactive({
-    items:[]
+    items:[],
+    userForm:{
+      username:"",
+      qq:"",
+      address:""
+    },
 })
 const getUserListData = () => {
     getUserListApi().then((Response)=>{
@@ -31,7 +40,7 @@ const getUserListData = () => {
     })
 }
 //把items从data中解构出来
-const {items} = toRefs(data)
+const {items,userForm} = toRefs(data)
 //生命周期的知识点，onBeforeMount是vue3.0新增的生命周期，在组件挂载之前执行
 onBeforeMount(()=>{getUserListData()})
 
@@ -68,9 +77,20 @@ const getUserListDelete = (info) => {
 
 const addUserDiag = ref(false)
 const getUserAdd = () =>{
+  defaultMethod.value = "add"
   addUserDiag.value = true
 }
+const getUserModify = (info) =>{
+  defaultMethod.value = "modify"
+  addUserDiag.value = true
+  //因为是引用传递所以子组件会带动父组件的修改
+  data.userForm = info
+}
 
+const closeDiag = () => {
+  addUserDiag.value = false
+  getUserListData()
+}
 </script>
 
 <template>
@@ -97,13 +117,13 @@ const getUserAdd = () =>{
         <el-table-column prop="address" label="Address" width="600" />
         <el-table-column fixed="right" label="Operations" min-width="103">
           <template #default="scope">
-            <el-button link type="warning" size="small">编辑</el-button>
+            <el-button link type="warning" size="small" @click="getUserModify(scope.row)">编辑</el-button>
             <el-button @click="getUserListDelete(scope.row)" link type="danger" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
       
-      <el-dialog v-model="addUserDiag" title="添加用户" width="500" >
-          <AddUser @refresh="getUserListData" ></AddUser>
+      <el-dialog destroy-on-close v-model="addUserDiag" title="用户操作" width="500" >
+          <AddUser :user-Form="userForm" :method="defaultMethod" @refresh="closeDiag" ></AddUser>
       </el-dialog>
 </template>

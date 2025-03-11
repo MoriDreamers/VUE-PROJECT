@@ -1,14 +1,27 @@
 <script setup>
   import { toRefs,reactive,ref } from 'vue';
-  import {getUserAddApi} from '../../api/user.js'
+  import {getUserAddApi,getUserModifyApi} from '../../api/user.js'
   import { ElMessage } from 'element-plus'
-  const data = reactive({
+  import { onBeforeMount } from 'vue';
+  const props = defineProps({
+    method:{
+      type:String,
+      default: "add"
+    },
+      userForm:{
+        type:Object,
+      },
+  })
+
+    //修改为在主组件中通过 props 接收 userForm 对象
+    const data = reactive({
     userForm:{
       username:"",
       qq:"",
       address:""
     }
   })
+
   const emits = defineEmits(['refresh'])
 //清空表单
   const clearForm = () => {
@@ -19,9 +32,19 @@ const {userForm} = toRefs(data)
 const userFormRef = ref()
 
 const loading = ref(false)
+onBeforeMount(()=>{
+  //这种方法会带动父组件修改 data.userForm = props.userForm
+  //对象转字符串
+  const jsonString = JSON.stringify(props.userForm)
+  //字符串转对象 此时就是新的对象
+  data.userForm = JSON.parse(jsonString)
+})
+
+
 const submitForm = () => {
   loading.value = true;
-  getUserAddApi(data.userForm).then((Response) => {
+  if (props.method == "add" ){
+    getUserAddApi(data.userForm).then((Response) => {
     ElMessage({
         type:'success',
         message:Response.message,
@@ -29,7 +52,16 @@ const submitForm = () => {
       loading.value = false;
       emits('refresh')
   })
-
+  }else {
+    getUserModifyApi(data.userForm).then((Response) => {
+    ElMessage({
+        type:'success',
+        message:Response.message,
+      })
+      loading.value = false;
+      emits('refresh')
+  })
+  }
 }
 
 </script>
@@ -49,7 +81,7 @@ const submitForm = () => {
   <div class="btn">
     <el-button @click="clearForm">清空</el-button>
     <el-button type="primary" @click="submitForm">
-      保存
+      {{ props.method == "add"? "增加" : "修改" }}
     </el-button>
   </div>
 </template>
