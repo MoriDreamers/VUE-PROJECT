@@ -20,3 +20,8 @@ export const getUserModifyApi = (object) => {
     console.log("请求修改的用户资料",object);
     return request(apiUrl.userModify, {object}, "post",2000);
 }
+
+export const getUserLogoutApi = () => { 
+    console.log("请求用户登出");
+    return request(apiUrl.userLogout, {}, "get",2000);
+}

@@ -16,10 +16,6 @@ export const MenuConfig = () => [
             },
             //查看权限
             {
-                index:"/user/add",
-                title:"添加用户",
-            },
-            {
                 index:"/user/view",
                 title:"查看用户",
             },

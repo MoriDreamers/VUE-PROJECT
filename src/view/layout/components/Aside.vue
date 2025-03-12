@@ -3,7 +3,7 @@ import { MenuConfig } from '../../../config/menu.js'
 import { ElNotification, ElSubMenu } from 'element-plus'
 import { ref } from 'vue';
 import {jmupRouter}from '../../../router/index.js'
-
+//const collapse = ref(true)
 
 /*
   为减少性能损耗 你可以自己手动来导入所需要的图标
@@ -39,7 +39,7 @@ const colorEgg = () => {
 
 <template>
 
-    <el-aside width="250px" class="el-aside">
+    <el-aside width="250px" class="el-aside"  >
       <div class="el-aside-logo">      
         <el-button text @click="colorEggCount" v-model="countEgg">
           Ciallo !
@@ -48,6 +48,7 @@ const colorEgg = () => {
 
       <div class="menu">
           <el-menu
+        
           active-text-color="#ffe9e3"
           background-color="#545c64"
           class="el-menu-vertical-demo"
@@ -102,6 +103,7 @@ const colorEgg = () => {
     box-sizing: border-box;
     width: 250px;
     box-shadow: #221717 0px 0px 15px;
+    z-index: 1;
   }
   .el-aside-logo {
     height: 60px;
